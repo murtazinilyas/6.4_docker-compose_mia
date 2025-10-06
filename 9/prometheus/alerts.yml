@@ -1,0 +1,6 @@
+groups:
+  - name: murtazinia
+    rules:
+      - alert: Danger
+        expr: murtazinia{job="netology"} > 1
+        for: 10s

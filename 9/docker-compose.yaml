@@ -1,0 +1,68 @@
+services:
+  prometheus:
+    image: prom/prometheus:main
+    container_name: murtazinia-netology-prometheus
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus-data:/prometheus
+    networks:
+      - murtazinia-my-netology-hw
+    restart: unless-stopped
+
+  pushgateway:
+    image: prom/pushgateway:master
+    container_name: murtazinia-netology-pushgateway
+    ports:
+      - 9091:9091
+    networks:
+      - murtazinia-my-netology-hw
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: murtazinia-netology-grafana
+    environment:
+      GF_PATHS_CONFIG: /etc/grafana/custom.ini
+    ports:
+      - 80:3000
+    volumes:
+      - ./grafana:/etc/grafana
+      - grafana-data:/var/lib/grafana
+    networks:
+      - murtazinia-my-netology-hw
+    depends_on:
+      - pushgateway
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:main
+    container_name: murtazinia-netology-alertmanager
+    command: --config.file=/etc/alertmanager/alertmanager.yml
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+      - alertmanager-data:/data
+    networks:
+      - murtazinia-my-netology-hw
+    depends_on:
+      - grafana
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:
+
+networks:
+  murtazinia-my-netology-hw:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 10.5.0.0/16
+        gateway: 10.5.0.1
