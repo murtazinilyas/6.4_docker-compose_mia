@@ -115,6 +115,8 @@ Docker Compose позволяет настраивать, запускать и 
 * скриншот команды docker ps после запуске docker-compose.yml;
 * скриншот графика, постоенного на основе вашей метрики.
 
+### Решение 7
+
 [docker-compose.yaml](https://github.com/murtazinilyas/6.4_docker-compose_mia/blob/main/docker-compose.yaml)
 ```YAML
 services:
@@ -172,8 +174,6 @@ networks:
 ```
 ![Результат вывода команды docker ps](https://github.com/murtazinilyas/6.4_docker-compose_mia/blob/main/screenshots/d2t7ps.png)
 ![График на полученной метрике](https://github.com/murtazinilyas/6.4_docker-compose_mia/blob/main/screenshots/d2t7dsh.png)
-
-### Решение 7
 
 ---
 
